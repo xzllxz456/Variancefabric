@@ -1,0 +1,11 @@
+version: '2.2'
+
+services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.2.0
+    container_name: filebeat
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./filebeat.yaml:/usr/share/filebeat/filebeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/rathon/go/src/github.com/hyperledger/fabric/examples/events/eventsclient/log/:/var/log

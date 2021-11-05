@@ -1,0 +1,38 @@
+version: '2.2'
+
+services:
+  elasticsearch01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch01
+    environment:
+      - node.name=elasticsearch01
+      - cluster.initial_master_nodes=elasticsearch01
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/data/:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    container_name: kibana
+    environment:
+      SERVER_NAME: kibana.example.com
+    volumes:
+      - ./kibana-7.2.0-linux/config/:/usr/share/kibana/config/
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch01
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.2.0
+    container_name: logstash
+    volumes:
+      - ./logstash/:/usr/share/logstash/
+    command: ./bin/logstash -f /usr/share/logstash/config/logstash.conf
+    ports:
+      - 5044:5044
+      - 9600:9600
+    depends_on:
+      - elasticsearch01

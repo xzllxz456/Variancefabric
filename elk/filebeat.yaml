@@ -1,0 +1,24 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/filteredblockhistory.log
+  multiline.pattern: "{\"write\":\"generated\"}"
+  multiline.negate: true
+  multiline.match: after
+
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+output.logstash:
+  hosts: "10.30.206.71:5044"
