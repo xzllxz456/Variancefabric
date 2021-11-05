@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  eventlistener:
+    container_name: eventlistener
+    image: eventlistener:1.0
+    command: go run /eventsclient.go
+    volumes:
+      - /home/rathon/go/testnet/crypto-config:/crypto-config
+      - ./log:/log
+      - ./eventsclient.go:/eventsclient.go
+    extra_hosts:
+      - peer0:0.0.0.0
