@@ -1,0 +1,52 @@
+{
+    "name": "basic-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Org0",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                },
+                "orderer": "300"
+            }
+        }
+    },
+    "channels": {
+        "mychannel": {
+            "orderers": [
+                "orderer"
+            ],
+            "peers": {
+                "peer0.org0": {}
+            }
+        }
+    },
+    "organizations": {
+        "Org0": {
+            "mspid": "Org0MSP",
+            "peers": [
+                "peer0.org0"
+            ],
+            "certificateAuthorities": [
+                "rathon"
+            ]
+        }
+    },
+    "orderers": {
+        "orderer": {
+            "url": "grpc://orderer:7050"
+        }
+    },
+    "peers": {
+        "peer0.org0": {
+            "url": "grpc://localhost:7051"
+        }
+    },
+    "certificateAuthorities": {
+        "rathon": {
+            "url": "http://10.30.202.221:7054",
+            "caName": "rathon"
+        }
+    }
+}
